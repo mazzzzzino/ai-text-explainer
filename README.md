@@ -1,73 +1,98 @@
-# Welcome to your Lovable project
+# AI Explainer Pro
 
-## Project info
+A powerful Chrome extension that lets you select any text on the web, right-click, and get instant AI-powered explanations with follow-up chat capabilities.
 
-**URL**: https://lovable.dev/projects/b80d7a32-1767-40fe-8e6b-df08e37ba5bf
+## Features
 
-## How can I edit this code?
+- 🌟 **Context Menu Integration**: Right-click any selected text and choose "Explain with AI"
+- 💬 **Interactive Chat Window**: Beautiful floating chat interface with conversation history
+- 🎨 **Modern UI**: Glassmorphic design with smooth animations and Shadow DOM isolation
+- 🔒 **Secure API Handling**: Your Gemini API key is stored securely and never exposed
+- 📝 **Markdown Support**: AI responses rendered with full markdown formatting
+- 🚀 **Built with Modern Tech**: Vite, React 18, TypeScript, Tailwind CSS
 
-There are several ways of editing your application.
+## Installation
 
-**Use Lovable**
+### Development
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b80d7a32-1767-40fe-8e6b-df08e37ba5bf) and start prompting.
+1. **Clone and Install**
+   ```bash
+   npm install
+   ```
 
-Changes made via Lovable will be committed automatically to this repo.
+2. **Build the Extension**
+   ```bash
+   npm run build
+   ```
 
-**Use your preferred IDE**
+3. **Load in Chrome**
+   - Open Chrome and navigate to `chrome://extensions/`
+   - Enable "Developer mode" (toggle in top right)
+   - Click "Load unpacked"
+   - Select the `dist` folder from this project
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Get Your Gemini API Key
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Sign in with your Google account
+3. Click "Create API Key"
+4. Copy the key
 
-Follow these steps:
+### Configure the Extension
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. Click the extension icon in your Chrome toolbar
+2. Paste your Gemini API key
+3. Click "Save API Key"
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Usage
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. **Select Text**: Highlight any text on any webpage
+2. **Right-Click**: Choose "Explain with AI" from the context menu
+3. **Chat**: The AI will explain the selected text, and you can ask follow-up questions
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## Tech Stack
+
+- **Build Tool**: Vite with @crxjs/vite-plugin for HMR and Manifest V3
+- **Framework**: React 18 with TypeScript
+- **Styling**: Tailwind CSS (injected into Shadow DOM)
+- **Icons**: Lucide React
+- **Markdown**: react-markdown
+- **AI Model**: Google Gemini 1.5 Flash
+
+## Architecture
+
+- **Background Service Worker**: Handles context menu, secure API calls to Gemini
+- **Content Script**: Injects Shadow DOM with isolated React app
+- **Popup**: Settings interface for API key management
+- **Shadow DOM**: Ensures extension UI doesn't conflict with website styles
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Development with HMR
 npm run dev
+
+# Build for production
+npm run build
+
+# Type checking
+npm run type-check
 ```
 
-**Edit a file directly in GitHub**
+## Project Structure
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+src/
+├── background/        # Service worker for context menu & API
+├── content/          # Injected chat UI with Shadow DOM
+├── popup/            # Extension settings popup
+├── components/       # Reusable UI components (shadcn)
+└── index.css        # Design system and Tailwind config
+```
 
-**Use GitHub Codespaces**
+## License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/b80d7a32-1767-40fe-8e6b-df08e37ba5bf) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+MIT
