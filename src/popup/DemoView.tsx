@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 
 export default function DemoView() {
   return (
-    <div className="w-[400px] p-6 bg-gradient-glass space-y-4">
+    <div className="min-h-screen flex items-center justify-center bg-background p-6">
+      <div className="w-full max-w-[500px] p-6 bg-gradient-glass rounded-2xl shadow-elegant space-y-4">
       <Alert className="border-primary/50 bg-primary/5">
         <Chrome className="w-4 h-4 text-primary" />
         <AlertTitle>Preview Mode</AlertTitle>
@@ -60,6 +61,7 @@ export default function DemoView() {
           Chrome Extension APIs are not available in this preview environment. The extension will work once installed in Chrome.
         </AlertDescription>
       </Alert>
+      </div>
     </div>
   );
 }
