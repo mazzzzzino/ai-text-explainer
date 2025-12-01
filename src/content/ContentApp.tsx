@@ -26,6 +26,11 @@ export default function ContentApp() {
 
   // Listen for messages from background script
   useEffect(() => {
+    // Check if chrome extension APIs are available
+    if (typeof chrome === 'undefined' || !chrome.runtime) {
+      return;
+    }
+
     const handleMessage = (message: ChromeMessage) => {
       if (message.type === 'OPEN_CHAT' && message.payload?.text) {
         setIsOpen(true);
@@ -70,6 +75,17 @@ export default function ContentApp() {
     }));
 
     try {
+      // Check if chrome extension APIs are available
+      if (typeof chrome === 'undefined' || !chrome.runtime) {
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: '❌ **Error:** Chrome Extension APIs not available. This extension must be installed in Chrome to work.',
+          timestamp: Date.now()
+        }]);
+        setIsLoading(false);
+        return;
+      }
+
       // Send to background script for secure API call
       const response = await chrome.runtime.sendMessage({
         type: 'QUERY_AI',
