@@ -5,8 +5,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import DemoView from './DemoView';
 
 export default function Popup() {
+  // Check if running in Chrome Extension context
+  const isExtension = typeof chrome !== 'undefined' && chrome.storage;
+
+  // Show demo view if not in extension context
+  if (!isExtension) {
+    return <DemoView />;
+  }
   const [apiKey, setApiKey] = useState('');
   const [savedKey, setSavedKey] = useState('');
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -14,17 +22,27 @@ export default function Popup() {
 
   useEffect(() => {
     // Load existing API key
-    chrome.storage.local.get(['geminiApiKey'], (result) => {
-      if (result.geminiApiKey && typeof result.geminiApiKey === 'string') {
-        setSavedKey('••••••••••••' + result.geminiApiKey.slice(-4));
-      }
-    });
+    // Check if chrome extension APIs are available
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.local.get(['geminiApiKey'], (result) => {
+        if (result.geminiApiKey && typeof result.geminiApiKey === 'string') {
+          setSavedKey('••••••••••••' + result.geminiApiKey.slice(-4));
+        }
+      });
+    }
   }, []);
 
   const handleSave = async () => {
     if (!apiKey.trim()) {
       setStatus('error');
       setMessage('Please enter an API key');
+      return;
+    }
+
+    // Check if chrome extension APIs are available
+    if (typeof chrome === 'undefined' || !chrome.storage) {
+      setStatus('error');
+      setMessage('Chrome Extension APIs not available. Please install as extension.');
       return;
     }
 
